@@ -1,5 +1,4 @@
 import React from 'react';
-import {View, Text, TextInput, Pressable, Platform} from 'react-native';
 import {useStyler} from './rn-styler';
 import {ThemeProvider} from './rn-styler';
 import {appStyles} from './styles';
@@ -7,7 +6,7 @@ import {appStyles} from './styles';
 const Provider = () => (
   <ThemeProvider
     theme={{
-      colors: {amayaPurple: '#854ba1', customBlue: '#51a3a3'},
+      colors: {purpleBg: '#854ba1', customBlue: '#51a3a3'},
       properties: {
         shadow: {
           shadowColor: '#000',
@@ -30,43 +29,24 @@ const Provider = () => (
 );
 
 const App = () => {
-  const {
-    View1,
-    Title,
-    Subtitle,
-    InputView,
-    Label1,
-    TextInput1,
-    Button1,
-    TextButton1,
-    StyledView,
-    StyledButton,
-    StyledTextButton,
-  } = useStyler(appStyles);
+  const [Container, Title, Button, ButtonTitle, BigRedText] =
+    useStyler(appStyles);
   return (
-    <StyledView>
-      <StyledButton>
-        <StyledTextButton>Customized Button</StyledTextButton>
-      </StyledButton>
-    </StyledView>
-  );
-  return (
-    <View1>
-      <Title>Regístrate</Title>
-      <Subtitle>
-        Escríbe tus datos sólo una vez para que puedas tener acceso siempre.
-      </Subtitle>
-      <InputView>
-        <Label1>Tu número de celular</Label1>
-        <TextInput1 placeholder="55 00 00 00 00" />
-      </InputView>
+    <Container prop1="XD">
+      <Title>Normal title</Title>
+      <Title primary>Blue title</Title>
+      <Title danger>Red title</Title>
 
-      <Pressable>
-        <Button1>
-          <TextButton1>Regístrate</TextButton1>
-        </Button1>
-      </Pressable>
-    </View1>
+      <Button bgColor="customBlue">
+        <ButtonTitle>Custom blue Buttom</ButtonTitle>
+      </Button>
+
+      <Button>
+        <ButtonTitle>Default gray Button</ButtonTitle>
+      </Button>
+
+      <BigRedText>Giant Text from Provider</BigRedText>
+    </Container>
   );
 };
 

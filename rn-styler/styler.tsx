@@ -17,45 +17,66 @@ const styler = (
   allColors: any,
   allProperties: any,
 ) => {
-  const includesComponent = Array.isArray(classStyles);
-  const classArray: String | any[] = includesComponent
-    ? classStyles[1].split(' ')
-    : classStyles.split(' ');
+  const includesComponent =
+    Array.isArray(classStyles) && classStyles.length > 1;
   let styles = {};
-  for (let i = 0; i < classArray.length; i++) {
-    let classProp = classArray[i];
-    const specifiesPlatform =
-      classProp.startsWith('android:') || classProp.startsWith('ios:');
-    const matchPlatform = specifiesPlatform
-      ? (classProp.startsWith('android:') && Platform.OS === 'android') ||
-        (classProp.startsWith('ios:') && Platform.OS === 'ios')
-      : true;
-    if (matchPlatform) {
-      classProp = classProp.replace('ios:', '').replace('android:', '');
+  const getStyleFromArrayOfClasses = arrayOfClasses => {
+    for (let i = 0; i < arrayOfClasses.length; i++) {
+      let classProp = arrayOfClasses[i];
+      const specifiesPlatform =
+        classProp.startsWith('android:') || classProp.startsWith('ios:');
+      const matchPlatform = specifiesPlatform
+        ? (classProp.startsWith('android:') && Platform.OS === 'android') ||
+          (classProp.startsWith('ios:') && Platform.OS === 'ios')
+        : true;
+      if (matchPlatform) {
+        classProp = classProp.replace('ios:', '').replace('android:', '');
+      }
+      if (!matchPlatform) {
+      } else if (allProperties[classProp]) {
+        styles = {
+          ...styles,
+          ...allProperties[classProp],
+        };
+      } else {
+        styles = {
+          ...styles,
+          ...getStyleValue(classProp, window, {
+            ...allColors.core,
+            ...allColors.aditional,
+          }),
+        };
+      }
     }
-    if (!matchPlatform) {
-    } else if (allProperties[classProp]) {
-      styles = {
-        ...styles,
-        ...allProperties[classProp],
-      };
-    } else {
-      styles = {
-        ...styles,
-        ...getStyleValue(classProp, window, allColors),
-      };
-    }
+  };
+  if (!includesComponent) {
+    getStyleFromArrayOfClasses(classStyles.split(' '));
   }
-  const Component = includesComponent ? classStyles[0] : null;
   return includesComponent
     ? (
         props = {
           style: null,
+          children: null,
         },
       ) => {
-        const {style = {}, ...rest} = props;
+        const {style = {}, children, ...rest} = props;
+        if (includesComponent) {
+          const classArray =
+            typeof classStyles[1] === 'string'
+              ? classStyles[1].split(' ')
+              : classStyles[1](rest).split(' ');
+          getStyleFromArrayOfClasses(classArray);
+        } else {
+          const classArray = Array.isArray(classStyles)
+            ? classStyles[0].split(' ')
+            : classStyles.split(' ');
+          getStyleFromArrayOfClasses(classArray);
+        }
+        const Component = includesComponent ? classStyles[0] : null;
         return (
-          <Component style={style ? {...styles, ...style} : styles} {...rest} />
+          <Component style={style ? {...styles, ...style} : styles} {...rest}>
+            {children}
+          </Component>
         );
       }
     : styles;
@@ -65,29 +86,25 @@ const useStyler = (stylesClasses?: UserStylerProps) => {
   const window = useWindowDimensions();
   const aditionalColors = useColors();
   const allColors = {
-    ...COLORS,
-    ...aditionalColors,
+    core: COLORS,
+    aditional: aditionalColors,
   };
   const aditionalProperties = useProperties();
   const allProperties = {
     ...PROPERTIES,
     ...aditionalProperties,
   };
-  if (stylesClasses && typeof stylesClasses === 'object') {
-    let styles: any = {};
-    const stylesClassesArray = Object.entries(stylesClasses);
-    for (let i = 0; i < stylesClassesArray.length; i++) {
-      const [key, value] = stylesClassesArray[i];
-      styles = {
-        ...styles,
-        [key]: styler(value, window, allColors, allProperties),
-      };
+  if (stylesClasses && typeof Array.isArray(stylesClasses)) {
+    let styles: any = [];
+    for (let i = 0; i < stylesClasses.length; i++) {
+      const value = stylesClasses[i];
+      styles = [...styles, styler(value, window, allColors, allProperties)];
     }
     return styles;
   } else if (typeof stylesClasses === 'string') {
-    return styler(stylesClasses, window, allColors, allProperties);
+    return [styler(stylesClasses, window, allColors, allProperties)];
   } else {
-    return {};
+    return [];
   }
 };
 
