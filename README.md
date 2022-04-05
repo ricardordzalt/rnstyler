@@ -3,6 +3,9 @@
 
 ### What's New?
 
+*0.3.4:*
+    -Updated react native version (0.68.0)
+
 *0.3.3:*
     -Added out of the box stylized components using useStyler hook
 
