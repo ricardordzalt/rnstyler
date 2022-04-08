@@ -1,24 +1,11 @@
-import {Text, View, Pressable} from 'react-native';
+import {View, Pressable} from 'react-native';
+import Component1 from './Component1';
 
 export const appStyles = [
-  [
-    View,
-    'flex-1 android:bg-purpleBg ios:bg-customBlue items-center justify-center',
-  ],
-  [
-    Text,
-    ({primary, danger}) =>
-      `text-${
-        primary ? 'blue-500' : danger ? 'red-500' : 'white'
-      } font-bold font-size-hp(3) font-bold`,
-  ],
+  [View, 'bg-blue-400 flex-1 justify-center items-center'],
   [
     Pressable,
-    ({bgColor}) =>
-      `w-wp(40) bg-${
-        bgColor ?? 'gray-300'
-      } px-hp(2) py-hp(1) mt-hp(20) rounded-hp(3) w-wp(50) shadow`,
+    'rounded-hp(3) w-wp(60) h-wp(20) bg-purple-600 items-center justify-center',
   ],
-  [Text, 'text-white font-bold font-size-hp(2) text-center'],
-  [Text, 'mt-hp(10) background-red-fontSize-big-custom-class'],
+  [Component1, 'text-red-400'],
 ];

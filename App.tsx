@@ -2,7 +2,7 @@ import React from 'react';
 import {useStyler} from './rn-styler';
 import {ThemeProvider} from './rn-styler';
 import {appStyles} from './styles';
-import {View, Text, Pressable} from 'react-native';
+import {View, Pressable, Text} from 'react-native';
 
 const Provider = () => (
   <ThemeProvider
@@ -30,42 +30,16 @@ const Provider = () => (
 );
 
 const App = () => {
-  const [Container, Title, Button, ButtonTitle, BigRedText] =
-    useStyler(appStyles);
+  const [MainView, BlueButton, CText] = useStyler(appStyles);
 
-  const [MainView, BlueButton, TextButton] = useStyler([
-    [View, 'bg-blue-400 flex-1 justify-center items-center'],
-    [
-      Pressable,
-      'rounded-hp(3) w-wp(60) h-wp(20) bg-purple-600 items-center justify-center',
-    ],
-    [Text, 'text-white font-bold font-size-hp(1.7) text-center'],
-  ]);
+  const [CText2] = useStyler([[CText, 'text-red-100']]);
 
   return (
     <MainView>
       <BlueButton>
-        <TextButton>I'm a styled pressable button</TextButton>
+        <CText2 style={{fontSize: 30}}>I'm a styled pressable button</CText2>
       </BlueButton>
     </MainView>
-  );
-
-  return (
-    <Container prop1="XD">
-      <Title>Normal title</Title>
-      <Title primary>Blue title</Title>
-      <Title danger>Red title</Title>
-
-      <Button bgColor="customBlue">
-        <ButtonTitle>Custom blue Buttom</ButtonTitle>
-      </Button>
-
-      <Button>
-        <ButtonTitle>Default gray Button</ButtonTitle>
-      </Button>
-
-      <BigRedText>Giant Text from Provider</BigRedText>
-    </Container>
   );
 };
 

@@ -74,7 +74,7 @@ const styler = (
         }
         const Component = includesComponent ? classStyles[0] : null;
         return (
-          <Component style={style ? {...styles, ...style} : styles} {...rest}>
+          <Component {...rest} style={{...styles, ...style}}>
             {children}
           </Component>
         );
