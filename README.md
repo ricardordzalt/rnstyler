@@ -3,8 +3,8 @@
 
 ### What's New?
 
-*0.4.0
-    -Updated use of useStyler hook, syntax changed, now accepts and returns an array
+##### *0.4.0:*
+    -Updated useStyler hook: syntax changed, now accepts and returns an array.
 
 *0.3.4:*
     -Updated react native version (0.68.0)
