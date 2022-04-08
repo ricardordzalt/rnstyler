@@ -62,7 +62,7 @@ const App = () => {
 
 ```
 
-![Example](https://github.com/ricardordzalt/rnstyler/blob/master/assets/example1.png?raw=true)
+![Example](https://github.com/ricardordzalt/rnstyler/blob/master/assets/example.png?raw=true)
 
 ### Theme
 
