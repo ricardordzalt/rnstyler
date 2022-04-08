@@ -3,6 +3,9 @@
 
 ### What's New?
 
+*0.4.0
+    -Updated use of useStyler hook, syntax changed, now accepts and returns an array
+
 *0.3.4:*
     -Updated react native version (0.68.0)
 
@@ -31,119 +34,35 @@ or using yarn:
 
 ### Usage
 
-#### Multiple styles with useStyler
+#### useStyler hook
 
-A way to use useStyler hook, is passing an object as prop, which should contain as *key*, the name of the *property* we want in the result of this function, and as *value*, the value of the *property*.
+Use useStyler hook into your application, to give styles to your components.
 
-Taking the *Single style with useStyler* example, useStyler should be used this way:
-
-```js
-const styles = useStyler({
-    containerStyle: 'flex-1 justify-center items-center p-20 bg-#2962FF',
-    buttonStyle: 'w-200 h-50 justify-center rounded-10 bg-#B9DBFF',
-    textButtonStyle: 'text-center font-bold font-size-17 text-#437'
-});
-
-<View style={styles.containerStyle}>
-    <Pressable style={styles.buttonStyle}>
-        <Text style={styles.textButtonStyle}>Customized Button</Text>
-    </Pressable>
-</View>
-```
-
-or destructuring:
-
-```js
-const {
-    containerStyle,
-    buttonStyle,
-    textButtonStyle,
-} = useStyler({
-    containerStyle: 'flex-1 justify-center items-center p-20 bg-#2962FF',
-    buttonStyle: 'w-200 h-50 justify-center rounded-10 bg-#B9DBFF',
-    textButtonStyle: 'text-center font-bold font-size-17 text-#437'
-});
-
-<View style={containerStyle}>
-    <Pressable style={buttonStyle}>
-        <Text style={textButtonStyle}>Customized Button</Text>
-    </Pressable>
-</View>
-```
-Which will give us the same result as the *Single style with useStyler* example:
-
-![Example](https://github.com/ricardordzalt/rnstyler/blob/master/assets/example1.jpg?raw=true)
-
-#### Stylizing components
-
-Antoher way is getting a stylized component passing one of it (it should have the style prop) and the "class" you want to add.
-
-
-Taking the previous example, let's replace our code with: 
-
-import:
-```js
-    import { View, Pressable, Text } from 'react-native';
-```
-then:
-
-```js
-const {
-    StyledView,
-    StyledButton,
-    StyledTextButton,
-} = useStyler({
-    StyledView: [View, 'flex-1 justify-center items-center p-20 bg-#2962FF'],
-    StyledButton: [Pressable, 'w-200 h-50 justify-center rounded-10 bg-#B9DBFF'],
-    StyledTextButton: [Text, 'text-center font-bold font-size-17 text-#437']
-});
-
-<StyledView>
-    <StyledButton>
-        <StyledTextButton>Customized Button</StyledTextButton>
-    </StyledButton>
-</StyledView>
-```
-And our result will be the same:
-
-![Example](https://github.com/ricardordzalt/rnstyler/blob/master/assets/example1.jpg?raw=true)
-
-
-### Android / iOS
-
-#### Platform Prefix
-
-Add the prefix 'android:'  or 'ios:' to your classes to apply styles conditionally, based on the current platform you are developing for.
-
-Example:
-*Pay atention for background and color classes.
+Argument must be a single array, with inside arrays of a React Component plus a string with the desired style. It also return an array with the same number array length provided as first and unique argument.
 
 
 ```js
+import { View, Text, Pressable } from 'react-native';
+
 const App = () => {
-    const { container, text } = useStyler({
-        container: 'android:bg-#a4c639 ios:bg-#ff2d55 flex-1 items-center justify-center',
-        text: 'android:color-white ios:color-#5856d6 font-size-hp(8)'
-    });
+  const [MainView, BlueButton, TextButton] = useStyler([
+    [View, 'bg-#c22 flex-1 justify-center items-center'],
+    [Pressable, 'rounded-hp(3) w-wp(60) h-wp(20) bg-#22c items-center justify-center',],
+    [Text, 'text-white font-bold font-size-hp(1.7) text-center'],
+  ]);
 
-    return (
-        <View style={container}>
-            <Text 
-                style={text}
-            >
-                {Platform.OS === "android" ? 'Android' 
-                        : Platform.OS === "ios" ? 'iOS' 
-                        : ''}
-            </Text>
-        </View>
-    )
-};
+  return (
+    <MainView>
+      <BlueButton>
+        <TextButton>I'm a styled pressable button</TextButton>
+      </BlueButton>
+    </MainView>
+  );
+}
+
 ```
 
-Result: 
-
-![Example 2](https://github.com/ricardordzalt/rnstyler/blob/master/assets/example2.jpg?raw=true)
-
+![Example](https://github.com/ricardordzalt/rnstyler/blob/master/assets/example1.jpg?raw=true)
 
 ### Theme
 
@@ -194,14 +113,14 @@ And use with useStyler hook in your components:
 
 ```js
 const App = () => {
-    const { bgNavyBlueStyle } = useStyler({
-        bgNavyBlueStyle: 'bg-navyBlue'
-    })
+    const [ViewNavyBlue] = useStyler([
+        [View, 'bg-navyBlue',]
+    ])
 
     return (
-        <View style={bgNavyBlueStyle}>
+        <ViewNavyBlue>
             ....
-        </View>
+        </ViewNavyBlue>
     )
 };
 ```
@@ -267,14 +186,14 @@ And use with useStyler hook in your components:
 
 ```js
 const App = () => {
-    const { anotherStyle } = useStyler({
-        anotherStyle: 'customShadow background-red-fontSize-big-custom-class'
-    })
+    const [CustomView] = useStyler([
+        [View, 'customShadow background-red-fontSize-big-custom-class']
+    ]);
 
     return (
-        <View style={anotherStyle}>
+        <CustomView>
             ....
-        </View>
+        </CustomView>
     )
 };
 ```

@@ -2,6 +2,7 @@ import React from 'react';
 import {useStyler} from './rn-styler';
 import {ThemeProvider} from './rn-styler';
 import {appStyles} from './styles';
+import {View, Text, Pressable} from 'react-native';
 
 const Provider = () => (
   <ThemeProvider
@@ -31,6 +32,24 @@ const Provider = () => (
 const App = () => {
   const [Container, Title, Button, ButtonTitle, BigRedText] =
     useStyler(appStyles);
+
+  const [MainView, BlueButton, TextButton] = useStyler([
+    [View, 'bg-blue-400 flex-1 justify-center items-center'],
+    [
+      Pressable,
+      'rounded-hp(3) w-wp(60) h-wp(20) bg-purple-600 items-center justify-center',
+    ],
+    [Text, 'text-white font-bold font-size-hp(1.7) text-center'],
+  ]);
+
+  return (
+    <MainView>
+      <BlueButton>
+        <TextButton>I'm a styled pressable button</TextButton>
+      </BlueButton>
+    </MainView>
+  );
+
   return (
     <Container prop1="XD">
       <Title>Normal title</Title>
