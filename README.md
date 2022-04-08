@@ -3,7 +3,7 @@
 
 ### What's New?
 
-##### *0.4.0:*
+*0.4.0:*
     -Updated useStyler hook: syntax changed, now accepts and returns an array.
 
 *0.3.4:*
@@ -62,7 +62,7 @@ const App = () => {
 
 ```
 
-![Example](https://github.com/ricardordzalt/rnstyler/blob/master/assets/example1.jpg?raw=true)
+![Example](https://github.com/ricardordzalt/rnstyler/blob/master/assets/example1.png?raw=true)
 
 ### Theme
 
