@@ -1,46 +1,19 @@
 import React from 'react';
-import {useStyler} from './rn-styler';
-import {ThemeProvider} from './rn-styler';
-import {appStyles} from './styles';
-import {View, Pressable, Text} from 'react-native';
-
-const Provider = () => (
-  <ThemeProvider
-    theme={{
-      colors: {purpleBg: '#854ba1', customBlue: '#51a3a3'},
-      properties: {
-        shadow: {
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 12,
-          },
-          shadowOpacity: 0.58,
-          shadowRadius: 16.0,
-          elevation: 24,
-        },
-        'background-red-fontSize-big-custom-class': {
-          backgroundColor: 'red',
-          fontSize: 20,
-        },
-      },
-    }}>
-    <App />
-  </ThemeProvider>
-);
+import RNStyler, {ThemeProvider, View} from './rn-styler';
 
 const App = () => {
-  const [MainView, BlueButton, CText] = useStyler(appStyles);
-
-  const [CText2] = useStyler([[CText, 'text-red-100']]);
-
   return (
-    <MainView>
-      <BlueButton>
-        <CText2 style={{fontSize: 30}}>I'm a styled pressable button</CText2>
-      </BlueButton>
-    </MainView>
+    <RNStyler.View className="flex-1 justify-center items-center bg-#f00000">
+      <RNStyler.Pressable className="w-wp(50) bg-red-300 rounded-hp(4) py-hp(1) shadow">
+        <RNStyler.Text className="color-#00ff0b font-size-hp(3) text-center">
+          Texto 1
+        </RNStyler.Text>
+      </RNStyler.Pressable>
+      <RNStyler.Text className="font-size-40 mt-hp(2) text-green-600">
+        Texto 2
+      </RNStyler.Text>
+    </RNStyler.View>
   );
 };
 
-export default Provider;
+export default App;

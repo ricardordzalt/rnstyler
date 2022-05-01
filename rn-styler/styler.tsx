@@ -4,6 +4,8 @@ import {styleProperties as PROPERTIES} from './styles/index';
 import {getStyleValue} from './utils/getStyleValue';
 import {colors as COLORS} from './constants/colors';
 import React from 'react';
+import * as ReactNative from 'react-native';
+import {isComponent} from './utils/validateComponent';
 
 type ClassStylesProps = String | any;
 
@@ -107,5 +109,22 @@ const useStyler = (stylesClasses?: UserStylerProps) => {
     return [];
   }
 };
+let components = {};
+
+Object.entries(ReactNative).forEach(([rnKey, rnValue]) => {
+  if (isComponent(rnValue)) {
+    const CustomComponent = ({className, ...props}) => {
+      const [Component] = useStyler([[rnValue, className]]);
+      return <Component {...props} />;
+    };
+    components = {
+      ...components,
+      // [rnKey]: ({className}) => rnValue({props: className}),
+      [rnKey]: CustomComponent,
+    };
+  }
+});
+
+export default components;
 
 export {useStyler, styler};
