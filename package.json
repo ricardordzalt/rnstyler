@@ -4,7 +4,7 @@
     "url": "https://github.com/ricardordzalt/rnstyler.git"
   },
   "name": "rn-styler",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "description": "A lightweight library inspired by TailwindCSS, which provides utilities to develop React Native UI's faster",
   "main": "rn-styler/index.tsx",
   "private": false,

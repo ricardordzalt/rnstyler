@@ -113,7 +113,7 @@ let components = {};
 
 Object.entries(ReactNative).forEach(([rnKey, rnValue]) => {
   if (isComponent(rnValue)) {
-    const CustomComponent = ({className, ...props}) => {
+    const CustomComponent = ({className = '', ...props}) => {
       const [Component] = useStyler([[rnValue, className]]);
       return <Component {...props} />;
     };
