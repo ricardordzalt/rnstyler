@@ -75,8 +75,10 @@ const styler = (
           getStyleFromArrayOfClasses(classArray);
         }
         const Component = includesComponent ? classStyles[0] : null;
+        // In case style prop is an array or object
+        const finalStyle = Array.isArray(style) ? [styles, ...style] : {...styles, ...style};
         return (
-          <Component {...rest} style={[{...styles, ...style}]}>
+          <Component {...rest} style={finalStyle}>
             {children}
           </Component>
         );
