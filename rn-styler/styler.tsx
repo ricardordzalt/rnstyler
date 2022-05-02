@@ -109,21 +109,59 @@ const useStyler = (stylesClasses?: UserStylerProps) => {
     return [];
   }
 };
+
+const coreComponents = [
+  'ActivityIndicator',
+  'Button',
+  'FlatList',
+  'Image',
+  'ImageBackground',
+  'KeyboardAvoidingView',
+  'Modal',
+  'Pressable',
+  'RefreshControl',
+  'ScrollView',
+  'SectionList',
+  'StatusBar',
+  'Switch',
+  'Text',
+  'TextInput',
+  'TouchableHighlight',
+  'TouchableOpacity',
+  'TouchableWithoutFeedback',
+  'View',
+  'VirtualizedList',
+];
+
 let components = {};
 
-Object.entries(ReactNative).forEach(([rnKey, rnValue]) => {
-  if (isComponent(rnValue)) {
-    const CustomComponent = ({className = '', ...props}) => {
-      const [Component] = useStyler([[rnValue, className]]);
-      return <Component {...props} />;
-    };
-    components = {
-      ...components,
-      // [rnKey]: ({className}) => rnValue({props: className}),
-      [rnKey]: CustomComponent,
-    };
-  }
-});
+coreComponents.forEach((coreComponent) => {
+  const CustomComponent = ({className = '', ...props}) => {
+    const [Component] = useStyler([[ReactNative[coreComponent], className]]);
+    return <Component {...props} />;
+  };
+  components = {
+    ...components,
+//       // [rnKey]: ({className}) => rnValue({props: className}),
+    [coreComponent]: CustomComponent,
+  };
+})
+
+// let components = {};
+
+// Object.entries(ReactNative).forEach(([rnKey, rnValue]) => {
+//   if (isComponent(rnValue)) {
+//     const CustomComponent = ({className = '', ...props}) => {
+//       const [Component] = useStyler([[rnValue, className]]);
+//       return <Component {...props} />;
+//     };
+//     components = {
+//       ...components,
+//       // [rnKey]: ({className}) => rnValue({props: className}),
+//       [rnKey]: CustomComponent,
+//     };
+//   }
+// });
 
 export default components;
 
